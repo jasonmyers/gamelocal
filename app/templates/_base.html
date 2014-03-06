@@ -2,7 +2,9 @@
 <html>
 <head>
     {% block css %}
-        <link rel="stylesheet" href="static/css/reset-min.css"/>
+        {% assets "css_app" %}
+            <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}" />
+        {% endassets %}
     {% endblock %}
     {% block js %}
         <script src='//code.jquery.com/jquery-1.11.0.min.js'></script>
@@ -10,10 +12,13 @@
     <title>{% block title %}{{ _('GameLocal') }}{% endblock %}</title>
 </head>
 <body>
-    <div id="header">{% block header %}{% endblock %}</div>
+    <div id="header">{% block header %}{{ _('GameLocal') }}{% endblock %}</div>
     <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">{% block footer %}{% endblock %}</div>
+    <div id="footer">{% block footer %}{{ _('About') }}{% endblock %}</div>
 </body>
 {% block bottomjs %}
+    {% assets "js_app" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 {% endblock %}
 </html>
