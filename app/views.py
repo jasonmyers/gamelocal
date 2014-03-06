@@ -8,7 +8,7 @@ from app import app
 
 @app.route('/')
 def home():
-    return "Welcome to gamelocal!"
+    return render_template('home.html')
 
 
 @app.errorhandler(404)
