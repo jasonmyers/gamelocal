@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% block css %}
+        <link rel="stylesheet" href="static/css/reset-min.css"/>
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
 {% block content %}
 {% endblock %}
 </body>
+{% block bottomjs %}
+{% endblock %}
 </html>
