@@ -33,3 +33,6 @@ nosetests.xml
 # Compiled Sass and Coffee files
 app/static/compiled/*
 app/static/.webassets-cache/*
+
+# Sqlite database
+*.db

@@ -10,9 +10,11 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 
-from flask.ext import babel, assets
-
 # Extensions
+from flask.ext import babel, assets, sqlalchemy
+
+db = sqlalchemy.SQLAlchemy(app)
+
 babel = babel.Babel(app)
 
 webassets = assets.Environment(app)

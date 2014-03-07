@@ -7,6 +7,7 @@ Usage:
     manage.py test [-d | --debug]
     manage.py pep8
     manage.py translate
+    manage.py db [reset]
 
 Arguments:
     check           Run tests and pep8, use to verify before commit
@@ -15,6 +16,8 @@ Arguments:
     pep8            Run pep8 linting on source
     translate       Scan source for translations and create/update necessary
                     .po[t] files
+    db              Database management
+        reset       Reset and populate the local sqlite database
 
 Options:
     -h --help   Show this
@@ -38,4 +41,10 @@ if __name__ == '__main__':
     if opt['translate']:
         from app.management import translate
         translate.run()
+
+    if opt['db']:
+        from app.management import db
+
+        if opt['reset']:
+            db.reset()
 

@@ -11,7 +11,7 @@ SECRET_KEY = os.environ['FLASK_SECRET_KEY']  # Required
 
 SQLALCHEMY_DATABASE_URI = os.environ.get(
     'FLASK_DATABASE_URL',
-    'sqlite:///' + os.path.join(BASEDIR, 'app.db')
+    'sqlite:///' + os.path.join(BASEDIR, 'local.db')
 )
 DATABASE_CONNECT_OPTIONS = {}
 
