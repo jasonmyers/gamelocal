@@ -1,10 +1,11 @@
 {% extends '_base.html' %}
 
 {% block content %}
+<p><a href="{{ url_for('home') }}">{{ _('Home') }}</a></p>
 <ul>
     {% for club in clubs %}
     <li>{{ club.name }}</li>
     {% endfor %}
 </ul>
-<p><a href="{{ url_for('home') }}">{{ _('Home') }}</a></p>
+<p><a href="{{ url_for('clubs.new_club') }}">{{ _('Add a Club') }}</a></p>
 {% endblock %}

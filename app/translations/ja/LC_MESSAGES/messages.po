@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-07 12:49-0500\n"
+"POT-Creation-Date: 2014-03-07 15:08-0500\n"
 "PO-Revision-Date: 2014-03-06 11:22-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ja <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
+#: app/clubs/forms.py:14
+msgid "Club Name"
+msgstr ""
+
+#: app/clubs/forms.py:16
+msgid "Game"
+msgstr ""
+
 #: app/clubs/models.py:11
 msgid "Go"
 msgstr "囲碁"
@@ -25,11 +33,16 @@ msgstr "囲碁"
 msgid "Chess"
 msgstr "チェス"
 
+#: app/clubs/views.py:32
+msgid "{club.name} has been added!"
+msgstr ""
+
 #: app/templates/404.html:4 app/templates/404.html:8
 msgid "Oops! Took a wrong turn somewhere..."
 msgstr "おっと！行方不明のページ！"
 
-#: app/templates/404.html:9 app/templates/clubs/list.html:9
+#: app/templates/404.html:9 app/templates/clubs/list.html:4
+#: app/templates/clubs/new.html:4
 msgid "Home"
 msgstr "ホメパゲ"
 
@@ -37,7 +50,7 @@ msgstr "ホメパゲ"
 msgid "GameLocal"
 msgstr "地元のゲーム"
 
-#: app/templates/_base.html:17
+#: app/templates/_base.html:24
 msgid "About"
 msgstr ""
 
@@ -47,5 +60,9 @@ msgstr "地元のゲームへようこそ！"
 
 #: app/templates/home.html:6
 msgid "All Clubs"
+msgstr ""
+
+#: app/templates/clubs/list.html:10
+msgid "Add a Club"
 msgstr ""
 
