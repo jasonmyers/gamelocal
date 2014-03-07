@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-06 11:37-0500\n"
+"POT-Creation-Date: 2014-03-06 19:36-0500\n"
 "PO-Revision-Date: 2014-03-06 11:16-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -25,8 +25,12 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: app/templates/_base.html:9
+#: app/templates/_base.html:12 app/templates/_base.html:15
 msgid "GameLocal"
+msgstr ""
+
+#: app/templates/_base.html:17
+msgid "About"
 msgstr ""
 
 #: app/templates/home.html:4
