@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import unittest
-
 import sys
 import os
 
 BASEDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if BASEDIR not in sys.path:
     sys.path.insert(0, BASEDIR)
+
+import unittest
 
 from tests.utils import BaseTestCase
 
@@ -25,12 +25,12 @@ class TestClubs(BaseTestCase):
     def setUp(self):
         super(TestClubs, self).setUp()
 
-        from factories import ClubFactory, I18NClubFactory
-        self.ClubFactory = ClubFactory
-        self.I18NClubFactory = I18NClubFactory
+        from factories import ChessClubFactory, GoClubFactory
+        self.ChessClubFactory = ChessClubFactory
+        self.GoClubFactory = GoClubFactory
 
     def test_club_model(self):
-        club = self.ClubFactory()
+        club = self.ChessClubFactory()
 
         db.session.add(club)
         db.session.commit()
@@ -41,7 +41,17 @@ class TestClubs(BaseTestCase):
         self.assertEqual(loaded.name, club.name)
 
     def test_club_model_i18n(self):
-        club = self.I18NClubFactory()
+        club = self.GoClubFactory()
+
+        # Make sure we're dealing with a non-ascii name
+        try:
+            unicode.encode(club.name, 'ascii')
+        except UnicodeEncodeError:
+            pass
+        else:
+            raise self.failureException(
+                "Expected non-ascii club name, got '{}'".format(club.name)
+            )
 
         db.session.add(club)
         db.session.commit()
@@ -50,6 +60,14 @@ class TestClubs(BaseTestCase):
 
         loaded = self.Club.query.get(club.id)
         self.assertEqual(loaded.name, club.name)
+
+    def test_club_game_type_filter(self):
+        db.session.add_all([self.GoClubFactory(), self.ChessClubFactory()])
+        db.session.commit()
+
+        self.assertLength(self.Club.query.all(), 2)
+        self.assertLength(self.Club.query.filter_by(game='go').all(), 1)
+        self.assertLength(self.Club.query.filter_by(game='chess').all(), 1)
 
 
 if __name__ == '__main__':

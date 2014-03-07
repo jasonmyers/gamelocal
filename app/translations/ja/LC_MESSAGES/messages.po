@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-06 19:36-0500\n"
+"POT-Creation-Date: 2014-03-07 12:49-0500\n"
 "PO-Revision-Date: 2014-03-06 11:22-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ja <LL@li.org>\n"
@@ -17,11 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
+#: app/clubs/models.py:11
+msgid "Go"
+msgstr "囲碁"
+
+#: app/clubs/models.py:12
+msgid "Chess"
+msgstr "チェス"
+
 #: app/templates/404.html:4 app/templates/404.html:8
 msgid "Oops! Took a wrong turn somewhere..."
 msgstr "おっと！行方不明のページ！"
 
-#: app/templates/404.html:9
+#: app/templates/404.html:9 app/templates/clubs/list.html:9
 msgid "Home"
 msgstr "ホメパゲ"
 
@@ -36,4 +44,8 @@ msgstr ""
 #: app/templates/home.html:4
 msgid "Welcome to GameLocal!"
 msgstr "地元のゲームへようこそ！"
+
+#: app/templates/home.html:6
+msgid "All Clubs"
+msgstr ""
 

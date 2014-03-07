@@ -10,6 +10,8 @@ BASEDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if BASEDIR not in sys.path:
     sys.path.insert(0, BASEDIR)
 
+from babel.support import Translations
+
 from app import app, db
 
 TEST_DATABASE_PATH = os.path.join(BASEDIR, 'test.db')
@@ -47,9 +49,19 @@ class BaseTestCase(unittest.TestCase):
         except OSError:
             pass
 
+    def assertLength(self, collection, length):
+        self.assertEqual(len(collection), length)
+
     def get(self, *args, **kwargs):
         # Override this to e.g. inject headers for all tests of a subclass
         return self.app.get(*args, **kwargs)
+
+
+def gettext_for(locale='en'):
+    """ Returns the `gettext` function for a specific locale """
+    return Translations.load(
+        os.path.join(BASEDIR, 'app', 'translations'), [locale]
+    ).gettext
 
 
 def seed_database(filename=TEST_DATABASE_PATH):
@@ -58,8 +70,11 @@ def seed_database(filename=TEST_DATABASE_PATH):
 
     from clubs import factories
 
-    for _ in range(10):
-        db.session.add(factories.ClubFactory())
-        db.session.add(factories.I18NClubFactory())
+    for _ in range(2):
+        for Factory in [
+            factories.GoClubFactory,
+            factories.ChessClubFactory,
+        ]:
+            db.session.add(Factory())
 
     db.session.commit()
