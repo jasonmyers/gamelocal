@@ -31,6 +31,17 @@ target_metadata = db.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+from app.models import UnicodeChoices
+
+
+def render_item(type_, obj, autogen_context):
+    """Apply custom rendering for selected items."""
+
+    if type_ == 'type' and isinstance(obj, UnicodeChoices):
+        autogen_context['imports'].add("from app import models")
+        return "models.%r" % obj
+
+    return False
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -72,7 +83,8 @@ def run_migrations_online():
     connection = engine.connect()
     context.configure(
                 connection=connection,
-                target_metadata=target_metadata
+                target_metadata=target_metadata,
+                render_item=render_item,
                 )
 
     try:

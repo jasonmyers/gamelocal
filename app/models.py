@@ -51,6 +51,9 @@ class UnicodeChoices(db.TypeDecorator):
         self.choices = OrderedDict(choices)
         super(UnicodeChoices, self).__init__(length=length, *args, **kwargs)
 
+    def __repr__(self):
+        return 'UnicodeChoices'
+
     def process_bind_param(self, value, dialect):
         if value not in self.choices:
             raise InvalidChoiceError('Invalid choice {}'.format(value))
