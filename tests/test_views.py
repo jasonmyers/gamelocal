@@ -6,9 +6,9 @@ import unittest
 import sys
 import os
 
-basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if basedir not in sys.path:
-    sys.path.insert(0, basedir)
+BASEDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if BASEDIR not in sys.path:
+    sys.path.insert(0, BASEDIR)
 
 from tests.utils import BaseTestCase
 

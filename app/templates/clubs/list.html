@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<ul>
+    {% for club in clubs %}
+    <li>{{ club.name }}</li>
+    {% endfor %}
+</ul>
+<p><a href="{{ url_for('home') }}">{{ _('Home') }}</a></p>
+{% endblock %}

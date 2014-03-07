@@ -58,3 +58,6 @@ webassets.register(
 
 # Views
 from app import views
+
+from app.clubs.views import blueprint as clubs_blueprint
+app.register_blueprint(clubs_blueprint)

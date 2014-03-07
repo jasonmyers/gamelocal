@@ -17,7 +17,7 @@ Arguments:
     translate       Scan source for translations and create/update necessary
                     .po[t] files
     db              Database management
-        reset       Reset and populate the local sqlite database
+        reset       Reset and populate the database (local db only)
 
 Options:
     -h --help   Show this
