@@ -18,6 +18,21 @@ from app import db
 
 class TestModels(BaseTestCase):
 
+    def test_base_model_kwargs(self):
+        from app.clubs.models import Club
+
+        club = Club(name='test')
+
+        self.assertEqual(club.name, 'test')
+
+    def test_base_model_unicode_repr(self):
+        from app.clubs.models import Club
+
+        club = Club(name='©')
+
+        self.assertEqual(club.__repr__(), b'Club \xc2\xa9')
+        self.assertEqual(club.__str__(), b'Club \xc2\xa9')
+
     def test_unicode_choices(self):
         from app.models import UnicodeChoices, InvalidChoiceError
 
