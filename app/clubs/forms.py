@@ -2,11 +2,12 @@
 from __future__ import unicode_literals
 
 from flask.ext.babel import lazy_gettext as _
-from flask.ext.wtf import Form, RecaptchaField
+from flask.ext.wtf import Form
 from wtforms import TextField, SelectField
 from wtforms.validators import Required
 
 from app.clubs.models import Club
+from app.gamecaptcha.forms import GoCaptchaField, ChessCaptchaField
 
 
 class ClubForm(Form):
@@ -16,4 +17,4 @@ class ClubForm(Form):
         _('Game'), [Required()], choices=Club.choices_for('game').items(),
     )
 
-    recaptcha = RecaptchaField()
+    game_captcha = ChessCaptchaField()

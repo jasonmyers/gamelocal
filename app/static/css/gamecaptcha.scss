@@ -1,0 +1,137 @@
+$board_size: 240px;
+
+$chess_square_size: $board_size / 8;
+$chess_piece_size: $board_size / 8;
+
+$go_square_size: $board_size / 9;
+$go_piece_size: $go_square_size * 2;
+
+$colorBamboo: #ffe57f;
+$colorRosewood: #725b00;
+$colorWhiteShell: #ffffdd;
+$colorBlackShell: #222200;
+
+@mixin disable-user-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div#gameCaptcha {
+    display: inline-block;
+
+    div#gameCaptchaButtons{
+        text-align: center;
+    }
+
+    div#gameCaptchaError {
+        color: red;
+    }
+
+    div#gameCaptchaBoard {
+        @include disable-user-select;
+        cursor: pointer;
+        cursor: hand;
+        display: inline-block;
+        font-size: 0;
+        height: $board_size;
+        width: $board_size;
+
+        span.square {
+            display: inline-block;
+            &.light {
+                background-color: $colorBamboo;
+            }
+            &.dark {
+                background-color: $colorRosewood;
+            }
+            position: relative;
+
+            span.piece {
+                pointer-events: none;
+                //text-align: center;
+                position: absolute;
+
+                &.light {
+                    color: $colorWhiteShell;
+                }
+
+                &.dark {
+                    color: $colorBlackShell;
+                }
+
+                &.hoverPiece, &.answerPiece {
+                    opacity: .75;
+                }
+            }
+        }
+
+        &.goCaptchaBoard {
+            span.square {
+                height: $go_square_size;
+                width: $go_square_size;
+                line-height: $go_piece_size;
+
+                span.piece {
+                    height: $go_square_size;
+                    width: $go_square_size;
+                    font-size: $go_piece_size;
+                    line-height: $go_square_size;
+                    margin-left: -($go_piece_size)/20;
+                    margin-top: -($go_piece_size)/40;
+                }
+                span.grid {
+                    display: inline-block;
+                    height: ($go_square_size / 2);
+                    width: ($go_square_size / 2);
+
+                    position: absolute;
+
+                    &.topleft {
+                        bottom: 0;
+                        right: 0;
+
+                        border-top: 1px solid black;
+                        border-left: 1px solid black;
+                    }
+                    &.bottomright {
+                        top: -1px;
+                        left: -1px;
+
+                        border-bottom: 1px solid black;
+                        border-right: 1px solid black;
+                    }
+                    &.topright {
+                        bottom: 0;
+                        left: -1px;
+
+                        border-top: 1px solid black;
+                        border-right: 1px solid black;
+                    }
+                    &.bottomleft {
+                        top: -1px;
+                        right: 0;
+
+                        border-bottom: 1px solid black;
+                        border-left: 1px solid black;
+                    }
+                }
+            }
+        }
+
+        &.chessCaptchaBoard {
+            span.square {
+                height: $chess_square_size;
+                width: $chess_square_size;
+                line-height: $chess_piece_size;
+
+                span.piece {
+                    font-size: $chess_piece_size;
+                }
+            }
+        }
+    }
+}

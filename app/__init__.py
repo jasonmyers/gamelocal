@@ -32,6 +32,7 @@ webassets.register(
         assets.Bundle(
             # Add new .coffee files here
             'js/main.coffee',
+            'js/gamecaptcha.coffee',
             filters='coffeescript',
             output='compiled/main.js',
         ),
@@ -48,6 +49,7 @@ webassets.register(
         assets.Bundle(
             # Add new .scss files here
             'css/main.scss',
+            'css/gamecaptcha.scss',
             filters='scss',
             output='compiled/main.css',
         ),
@@ -61,3 +63,6 @@ from app import views
 
 from app.clubs.views import blueprint as clubs_blueprint
 app.register_blueprint(clubs_blueprint)
+
+from app.gamecaptcha.views import blueprint as gamecaptcha_blueprint
+app.register_blueprint(gamecaptcha_blueprint)
