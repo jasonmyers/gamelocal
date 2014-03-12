@@ -35,10 +35,12 @@ class BaseTestCase(unittest.TestCase):
 
         self.context = self.app.application.test_request_context
 
+        assert unicode(db.engine.url).startswith('sqlite:///')
         self._remove_db_file()
         db.create_all()
 
     def tearDown(self):
+        assert unicode(db.engine.url).startswith('sqlite:///')
         db.session.remove()
         db.drop_all()
         self._remove_db_file()
