@@ -6,6 +6,7 @@ Usage:
     manage.py check
     manage.py test [-d | --debug]
     manage.py pep8
+    manage.py requirements
     manage.py translate
     manage.py db reset
     manage.py db update <message>
@@ -17,6 +18,7 @@ Arguments:
     test                Run tests
         -d --debug      Disable output capture, and drop to PDB on exception
     pep8                Run pep8 linting on source
+    requirements        Updates requirements.txt with pip freeze
     translate           Scan source for translations and create/update necessary
                         .po[t] files
     db                  Database management
@@ -65,3 +67,7 @@ if __name__ == '__main__':
 
         elif opt['downgrade']:
             db.downgrade(revision=opt['<revision>'])
+
+    if opt['requirements']:
+        from app.management import requirements
+        requirements.run()
