@@ -10,8 +10,15 @@ Create Date: 2014-03-07 14:10:43.691612
 revision = '2d2525b773e'
 down_revision = '2fe92b087948'
 
+import sys
+import os
+
 from alembic import op
 import sqlalchemy as sa
+
+BASEDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+if BASEDIR not in sys.path:
+    sys.path.insert(0, BASEDIR)
 
 from app.models import UnicodeChoices
 

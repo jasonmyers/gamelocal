@@ -11,6 +11,15 @@ from app import db
 class BaseModel(db.Model):
     __abstract__ = True
 
+    create_date = db.Column(
+        db.DateTime, nullable=False,
+        default=db.func.now(),
+    )
+    update_date = db.Column(
+        db.DateTime, nullable=False,
+        default=db.func.now(), onupdate=db.func.now()
+    )
+
     def __init__(self, *args, **kwargs):
         super(BaseModel, self).__init__(*args, **kwargs)
         self.__dict__.update(kwargs)
