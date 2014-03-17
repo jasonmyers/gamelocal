@@ -39,24 +39,45 @@ def reset():
 
 
 def update(message=''):
-    update_command = UPDATE_COMMAND.split()
+    command = UPDATE_COMMAND.split()
     if message:
-        update_command += ['-m', message]
-    print "Running {}".format(' '.join(update_command))
-    subprocess.check_call(update_command)
+        command += ['-m', message]
+    print "Running {}".format(' '.join(command))
+    try:
+        subprocess.check_call(command)
+    except subprocess.CalledProcessError:
+        pass
+
+    print "Revision plans stored in alembic/versions/"
 
 
-def upgrade(revision=''):
-    upgrade_command = UPGRADE_COMMAND.split()
+def upgrade(revision='', execute=False):
+    command = UPGRADE_COMMAND.split()
     if revision:
-        upgrade_command += [revision]
-    print "Running {}".format(' '.join(upgrade_command))
-    subprocess.check_call(upgrade_command)
+        command += [revision]
+    if not execute:
+        command += ['--sql']
+    print "Running {}".format(' '.join(command))
+    try:
+        subprocess.check_call(command)
+    except subprocess.CalledProcessError:
+        pass
+    else:
+        if not execute:
+            print "   Run again with --execute to execute the above statements"
 
 
-def downgrade(revision=''):
-    downgrade_command = DOWNGRADE_COMMAND.split()
+def downgrade(revision='', execute=False):
+    command = DOWNGRADE_COMMAND.split()
     if revision:
-        downgrade_command += [revision]
-    print "Running {}".format(' '.join(downgrade_command))
-    subprocess.check_call(downgrade_command)
+        command += [revision]
+    if not execute:
+        command += ['--sql']
+    print "Running {}".format(' '.join(command))
+    try:
+        subprocess.check_call(command)
+    except subprocess.CalledProcessError:
+        pass
+    else:
+        if not execute:
+            print "   Run again with --execute to execute the above statements"

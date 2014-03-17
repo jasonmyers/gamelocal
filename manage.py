@@ -10,8 +10,8 @@ Usage:
     manage.py translate
     manage.py db reset
     manage.py db update <message>
-    manage.py db upgrade [<revision>]
-    manage.py db downgrade <revision>
+    manage.py db upgrade [<revision>] [-x | --execute]
+    manage.py db downgrade <revision> [-x | --execute]
 
 Arguments:
     check               Run tests and pep8 (use to verify before commit)
@@ -25,10 +25,9 @@ Arguments:
         reset           Reset and populate the database (local db only)
         update          Run alembic auto-revision check for changed schema
             <message>   Revision message
-        upgrade         Upgrade the database schema
-            <revision>  Upgrade to which revision (default most recent)
-        downgrade       Downgrade the database schema to revision
-            <revision>  Downgrade to which revision
+        upgrade         Output schema upgrade plan to <revision> (default most recent)
+        downgrade       Output schema downgrade plan to <revision>
+        -x --execute    Execute the migration plan
 
 Options:
     -h --help   Show this
@@ -63,10 +62,16 @@ if __name__ == '__main__':
             db.update(message=opt['<message>'])
 
         elif opt['upgrade']:
-            db.upgrade(revision=opt['<revision>'] or 'head')
+            db.upgrade(
+                revision=opt['<revision>'] or 'head',
+                execute=opt['--execute'],
+            )
 
         elif opt['downgrade']:
-            db.downgrade(revision=opt['<revision>'])
+            db.downgrade(
+                revision=opt['<revision>'],
+                execute=opt['--execute'],
+            )
 
     if opt['requirements']:
         from app.management import requirements
