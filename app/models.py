@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from collections import OrderedDict
+from sqlalchemy.ext.declarative import declared_attr
 
 from sqlalchemy.orm import class_mapper
 
@@ -19,6 +20,10 @@ class BaseModel(db.Model):
         db.DateTime, nullable=False,
         default=db.func.now(), onupdate=db.func.now()
     )
+
+    @declared_attr
+    def __tablename__(cls):
+        return cls.__name__.lower()
 
     def __init__(self, *args, **kwargs):
         super(BaseModel, self).__init__(*args, **kwargs)

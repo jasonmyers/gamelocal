@@ -14,7 +14,6 @@ CLUB_GAME_CHOICES = (
 
 
 class Club(BaseModel):
-    __tablename__ = 'clubs'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode(500))
