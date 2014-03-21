@@ -12,10 +12,13 @@ from app import db
 class BaseModel(db.Model):
     __abstract__ = True
 
+    id = db.Column(db.Integer, primary_key=True)
+
     create_date = db.Column(
         db.DateTime, nullable=False,
         default=db.func.now(),
     )
+
     update_date = db.Column(
         db.DateTime, nullable=False,
         default=db.func.now(), onupdate=db.func.now()

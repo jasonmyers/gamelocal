@@ -15,9 +15,7 @@ CLUB_GAME_CHOICES = (
 
 class Club(BaseModel):
 
-    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode(500))
-
     game = db.Column(UnicodeChoices(50, choices=CLUB_GAME_CHOICES))
 
     def __unicode__(self):
