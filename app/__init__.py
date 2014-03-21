@@ -9,6 +9,14 @@ from flask import Flask
 app = Flask(__name__)
 app.config.from_object('config')
 
+import logging
+stream_handler = logging.StreamHandler()
+app.logger.addHandler(stream_handler)
+app.logger.setLevel(logging.INFO)
+
+if app.debug:
+    app.logger.setLevel(logging.DEBUG)
+
 
 # Extensions
 from flask.ext import babel, assets, sqlalchemy
