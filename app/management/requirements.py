@@ -43,4 +43,3 @@ def run():
             line + '\n' for line in requirements_in.splitlines()
             if not any(package in line for package in EXCLUDE_PACKAGES)
         )
-
