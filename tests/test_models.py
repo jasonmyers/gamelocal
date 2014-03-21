@@ -48,9 +48,11 @@ class TestModels(BaseTestCase):
 
     def test_unicode_choices_model_commit(self):
         from tests.clubs.factories import GoClubFactory
-        from app.clubs.models import Club, CLUB_GAME_CHOICES
+        from app.clubs.models import Club
 
         club = GoClubFactory()
+        # TODO:  This currently throws a warning since `game` is a polymorphic
+        # identity.  Change this test to use a non-polymorphic Choices field
         club.game = 'parcheesi'
 
         self.assertLength(Club.query.all(), 0)
