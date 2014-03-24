@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import glob
 import subprocess
 import sys
 import os
@@ -20,10 +21,19 @@ UPGRADE_COMMAND = 'alembic upgrade'
 DOWNGRADE_COMMAND = 'alembic downgrade'
 
 
+def delete_pyc_files(path):
+    for pyc in glob.glob(
+        os.path.join(BASEDIR, os.path.join(*path), '*.pyc')
+    ):
+        os.remove(pyc)
+
+
 def reset(clean=False, head=False):
     local_db = os.path.join(BASEDIR, 'local.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = \
         'sqlite:///' + local_db
+
+    delete_pyc_files(['alembic', 'versions'])
 
     print "Dropping local database"
 
@@ -48,6 +58,7 @@ def reset(clean=False, head=False):
 
 
 def update(message=''):
+    delete_pyc_files(['alembic', 'versions'])
     command = UPDATE_COMMAND.split()
     if message:
         command += ['-m', message]
@@ -61,6 +72,7 @@ def update(message=''):
 
 
 def upgrade(revision='', execute=False):
+    delete_pyc_files(['alembic', 'versions'])
     command = UPGRADE_COMMAND.split()
     if revision:
         command += [revision]
@@ -77,6 +89,7 @@ def upgrade(revision='', execute=False):
 
 
 def downgrade(revision='', execute=False):
+    delete_pyc_files(['alembic', 'versions'])
     command = DOWNGRADE_COMMAND.split()
     if revision:
         command += [revision]
