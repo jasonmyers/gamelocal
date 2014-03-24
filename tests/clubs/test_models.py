@@ -26,7 +26,7 @@ class TestModels(BaseTestCase):
     def setUp(self):
         super(TestModels, self).setUp()
 
-        from factories import ChessClubFactory, GoClubFactory
+        from tests.clubs.factories import ChessClubFactory, GoClubFactory
         self.ChessClubFactory = ChessClubFactory
         self.GoClubFactory = GoClubFactory
 
