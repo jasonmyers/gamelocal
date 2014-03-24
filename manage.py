@@ -8,7 +8,7 @@ Usage:
     manage.py pep8
     manage.py requirements
     manage.py translate
-    manage.py db reset
+    manage.py db reset [--clean] [--head]
     manage.py db update <message>
     manage.py db upgrade [<revision>] [-x | --execute]
     manage.py db downgrade <revision> [-x | --execute]
@@ -16,21 +16,23 @@ Usage:
 Arguments:
     check               Run tests and pep8 (use to verify before commit)
     test                Run tests
-        -d --debug      Disable output capture, and drop to PDB on exception
+        -d --debug          Disable output capture, and drop to PDB on exception
     pep8                Run pep8 linting on source
     requirements        Updates requirements.txt with pip freeze
     translate           Scan source for translations and create/update necessary
                         .po[t] files
     db                  Database management
         reset           Reset and populate the database (local db only)
+            --clean     Don't populate new database with test data
+            --head      Bump alembic head revision to current database schema
         update          Run alembic auto-revision check for changed schema
             <message>   Revision message
         upgrade         Output schema upgrade plan to <revision> (default most recent)
         downgrade       Output schema downgrade plan to <revision>
-        -x --execute    Execute the migration plan
+        -x --execute    Execute the schema migration plan
 
 Options:
-    -h --help   Show this
+    -h --help           Show this
 
  """
 from __future__ import unicode_literals
@@ -56,7 +58,7 @@ if __name__ == '__main__':
         from app.management import db
 
         if opt['reset']:
-            db.reset()
+            db.reset(clean=opt['--clean'], head=opt['--head'])
 
         elif opt['update']:
             db.update(message=opt['<message>'])

@@ -20,7 +20,7 @@ UPGRADE_COMMAND = 'alembic upgrade'
 DOWNGRADE_COMMAND = 'alembic downgrade'
 
 
-def reset():
+def reset(clean=False, head=False):
     local_db = os.path.join(BASEDIR, 'local.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = \
         'sqlite:///' + local_db
@@ -33,9 +33,18 @@ def reset():
 
     db.create_all()
 
-    print "Seeding local database with initial data"
+    if head:
+        print "Bumping alembic revision to head"
 
-    seed_database(local_db)
+        from alembic.config import Config
+        from alembic import command
+        alembic_cfg = Config(os.path.join(BASEDIR, 'alembic.ini'))
+        command.stamp(alembic_cfg, 'head')
+
+    if not clean:
+        print "Seeding local database with initial data"
+
+        seed_database(local_db)
 
 
 def update(message=''):
