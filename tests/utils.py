@@ -13,6 +13,7 @@ if BASEDIR not in sys.path:
 from babel.support import Translations
 
 from app import app, db
+from tests import factories
 
 TEST_DATABASE_PATH = os.path.join(BASEDIR, 'test.db')
 
@@ -38,6 +39,8 @@ class BaseTestCase(unittest.TestCase):
         assert unicode(db.engine.url).startswith('sqlite:///')
         self._remove_db_file()
         db.create_all()
+
+        factories.reset_all_sequences()
 
     def tearDown(self):
         assert unicode(db.engine.url).startswith('sqlite:///')

@@ -62,6 +62,8 @@ class UnicodeChoices(db.TypeDecorator):
     """
     impl = db.Unicode
 
+    EMPTY_CHOICE = (('', ''),)
+
     def __init__(self, length=None, choices=None, *args, **kwargs):
         if choices is None:
             choices = ()

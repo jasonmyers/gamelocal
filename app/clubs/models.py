@@ -5,6 +5,7 @@ from flask.ext.babel import lazy_gettext as _
 
 from app import db
 from app.models import BaseModel, UnicodeChoices
+from app.geo.models import Geo
 
 
 CLUB_GAME_CHOICES = (
@@ -13,7 +14,7 @@ CLUB_GAME_CHOICES = (
 )
 
 
-class Club(BaseModel):
+class Club(BaseModel, Geo):
 
     name = db.Column(db.Unicode(500), nullable=False, default='')
     game = db.Column(

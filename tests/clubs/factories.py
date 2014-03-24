@@ -12,6 +12,7 @@ import factory
 
 from app.clubs.models import Club
 
+from tests.factories import BaseFactory
 from tests.utils import gettext_for
 
 
@@ -25,7 +26,14 @@ def i18n_name(locale='en', fmt='{game}{n}'):
     return name
 
 
-class ChessClubFactory(factory.Factory):
+class ClubFactory(BaseFactory):
+    FACTORY_FOR = Club
+
+    latitude = factory.Sequence(lambda n: 30 + n, type=float)
+    longitude = factory.Sequence(lambda n: 30 + n, type=float)
+
+
+class ChessClubFactory(ClubFactory):
     FACTORY_FOR = Club
     name = factory.LazyAttributeSequence(
         i18n_name('en', "{game} Club {n}")
@@ -33,7 +41,7 @@ class ChessClubFactory(factory.Factory):
     game = 'chess'
 
 
-class GoClubFactory(factory.Factory):
+class GoClubFactory(ClubFactory):
     FACTORY_FOR = Club
     name = factory.LazyAttributeSequence(
         i18n_name('ja', "楽しいクラブ{game} {n}")

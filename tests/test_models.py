@@ -51,9 +51,7 @@ class TestModels(BaseTestCase):
         from app.clubs.models import Club
 
         club = GoClubFactory()
-        # TODO:  This currently throws a warning since `game` is a polymorphic
-        # identity.  Change this test to use a non-polymorphic Choices field
-        club.game = 'parcheesi'
+        club.country_code = '!!'
 
         self.assertLength(Club.query.all(), 0)
 
