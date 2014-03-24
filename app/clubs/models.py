@@ -15,8 +15,11 @@ CLUB_GAME_CHOICES = (
 
 class Club(BaseModel):
 
-    name = db.Column(db.Unicode(500))
-    game = db.Column(UnicodeChoices(50, choices=CLUB_GAME_CHOICES))
+    name = db.Column(db.Unicode(500), nullable=False, default='')
+    game = db.Column(
+        UnicodeChoices(50, choices=CLUB_GAME_CHOICES),
+        nullable=False
+    )
 
     __mapper_args__ = {'polymorphic_on': game}
 
