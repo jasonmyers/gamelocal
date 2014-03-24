@@ -15,15 +15,16 @@ from tests.utils import BaseTestCase
 from app import db
 
 
-class TestClubs(BaseTestCase):
+class TestModels(BaseTestCase):
+
     @classmethod
     def setUpClass(cls):
-        super(TestClubs, cls).setUpClass()
+        super(TestModels, cls).setUpClass()
         from app.clubs.models import Club
         cls.Club = Club
 
     def setUp(self):
-        super(TestClubs, self).setUp()
+        super(TestModels, self).setUp()
 
         from factories import ChessClubFactory, GoClubFactory
         self.ChessClubFactory = ChessClubFactory
