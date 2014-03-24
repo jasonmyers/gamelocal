@@ -5,7 +5,7 @@ import nose
 
 
 def run(debug=False):
-    argv = ['-w', 'tests']
+    argv = ['-w', 'tests', '--logging-clear-handlers']
     if debug:
         argv += ['-v', '-s', '--debug',
                  '--nocapture', '--nologcapture', '--pdb']
