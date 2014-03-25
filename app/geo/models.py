@@ -50,10 +50,23 @@ class Geo(object):
 
     @property
     def country(self):
+        """ Human readable version of country_code """
         return COUNTRY_CODES_DICT.get(self.country_code, self.country_code)
 
     @classmethod
     def query_bounding_box(cls, topleft, bottomright):
+        """ Returns a query of Geo instances with lat/long inside
+        the given bounding box
+
+        :param topleft:
+            tuple of coordinates specifying the top left
+            position of the bounding box
+
+        :param bottomright:
+            tuple of coordinates specifying the bottom left
+            position of the bounding box
+
+        """
         return db.session.query(cls).filter(
             cls.latitude.between(topleft[0], bottomright[0]),
             cls.longitude.between(topleft[1], bottomright[1]),
@@ -70,7 +83,8 @@ class Geo(object):
 
         Usage ::
 
-                user.set_geo_from_ip(user_ip)
+            user.set_geo_from_ip(user_ip)
+
         """
         geo_data = iplookup(ip)
         self.address = ''
@@ -82,6 +96,12 @@ class Geo(object):
         self.longitude = geo_data.get('longitude', '')
 
     def set_geo_from_geo(self, other):
-        """ Sets this model's geo data to the same as the given geo model"""
+        """ Sets this model's geo data to the same as another geo model
+
+        Usage ::
+
+            club.set_geo_from_geo(user)
+
+        """
         for attr in Geo.GEO_ATTRS:
             setattr(self, attr, getattr(other, attr))
