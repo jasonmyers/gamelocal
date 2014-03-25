@@ -31,13 +31,13 @@ target_metadata = db.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-from app.models import UnicodeChoices
+from app.models import UnicodeTextChoices
 
 
 def render_item(type_, obj, autogen_context):
     """Apply custom rendering for selected items."""
 
-    if type_ == 'type' and isinstance(obj, UnicodeChoices):
+    if type_ == 'type' and isinstance(obj, UnicodeTextChoices):
         autogen_context['imports'].add("from app import models")
         return "models.%r" % obj
 

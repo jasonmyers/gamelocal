@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from flask.ext.babel import lazy_gettext as _
 
 from app import db
-from app.models import BaseModel, UnicodeChoices
+from app.models import BaseModel, UnicodeTextChoices
 from app.geo.models import Geo
 
 
@@ -16,9 +16,9 @@ CLUB_GAME_CHOICES = (
 
 class Club(BaseModel, Geo):
 
-    name = db.Column(db.Unicode(500), nullable=False, default='')
+    name = db.Column(db.UnicodeText, nullable=False, default='')
     game = db.Column(
-        UnicodeChoices(50, choices=CLUB_GAME_CHOICES),
+        UnicodeTextChoices(choices=CLUB_GAME_CHOICES),
         nullable=False
     )
 

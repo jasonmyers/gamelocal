@@ -34,13 +34,13 @@ class TestModels(BaseTestCase):
         self.assertEqual(club.__str__(), b'Club \xc2\xa9')
 
     def test_unicode_choices(self):
-        from app.models import UnicodeChoices, InvalidChoiceError
+        from app.models import UnicodeTextChoices, InvalidChoiceError
 
         choices = [
             ('chess', 'Chess'), ('go', 'Go')
         ]
 
-        field = UnicodeChoices(10, choices=choices)
+        field = UnicodeTextChoices(choices=choices)
 
         self.assertRaises(
             InvalidChoiceError, field.process_bind_param, 'parcheesi', None

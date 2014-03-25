@@ -48,7 +48,7 @@ class InvalidChoiceError(Exception):
     pass
 
 
-class UnicodeChoices(db.TypeDecorator):
+class UnicodeTextChoices(db.TypeDecorator):
     """A Unicode field that is restricted to a set of choices
 
     `choices`
@@ -57,21 +57,21 @@ class UnicodeChoices(db.TypeDecorator):
     Usage::
 
         FRUIT_CHOICES = (('apple', 'Apple'), ('key_lime', 'Key Lime'))
-        fruit = db.Column(db.UnicodeChoices(50, choices=FRUIT_CHOICES))
+        fruit = db.Column(db.UnicodeTextChoices(choices=FRUIT_CHOICES))
 
     """
-    impl = db.Unicode
+    impl = db.UnicodeText
 
     EMPTY_CHOICE = (('', ''),)
 
-    def __init__(self, length=None, choices=None, *args, **kwargs):
+    def __init__(self, choices=None, *args, **kwargs):
         if choices is None:
             choices = ()
         self.choices = OrderedDict(choices)
-        super(UnicodeChoices, self).__init__(length=length, *args, **kwargs)
+        super(UnicodeTextChoices, self).__init__(*args, **kwargs)
 
     def __repr__(self):
-        return 'UnicodeChoices'
+        return 'UnicodeTextChoices'
 
     def process_bind_param(self, value, dialect):
         if value not in self.choices:

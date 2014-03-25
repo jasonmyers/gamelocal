@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declared_attr
 
 from app import db
 from app.geo.lookup import iplookup
-from app.models import UnicodeChoices
+from app.models import UnicodeTextChoices
 from app.geo.locale import COUNTRY_CODES, COUNTRY_CODES_DICT
 
 
@@ -15,17 +15,19 @@ class Geo(object):
     # free-form address lines
     address = db.Column(db.UnicodeText, nullable=False, default='')
 
-    city = db.Column(db.Unicode(50), nullable=False, default='')
+    city = db.Column(db.UnicodeText, nullable=False, default='')
 
     # state / district / province
-    region = db.Column(db.Unicode(50), nullable=False, default='')
+    region = db.Column(db.UnicodeText, nullable=False, default='')
 
     # zip
-    postal_code = db.Column(db.Unicode(50), nullable=False, default='')
+    postal_code = db.Column(db.UnicodeText, nullable=False, default='')
 
     # 2-digit country code
     country_code = db.Column(
-        UnicodeChoices(2, choices=UnicodeChoices.EMPTY_CHOICE + COUNTRY_CODES),
+        UnicodeTextChoices(
+            choices=UnicodeTextChoices.EMPTY_CHOICE + COUNTRY_CODES
+        ),
         nullable=False, default=''
     )
 
