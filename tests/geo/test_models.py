@@ -51,22 +51,19 @@ class TestModels(BaseTestCase):
 
         self.assertLength(
             self.GoClub.query_bounding_box(
-                (30.0, 30.0),
-                (34.0, 34.0),
+                (30.0, 30.0), (34.0, 34.0),
             ).all(), 5
         )
 
         self.assertLength(
             self.GoClub.query_bounding_box(
-                (31.0, 31.0),
-                (33.0, 33.0),
+                (31.0, 31.0), (33.0, 33.0),
             ).all(), 3
         )
 
         self.assertLength(
             self.GoClub.query_bounding_box(
-                (28.0, 28.0),
-                (29.0, 29.0),
+                (28.0, 28.0), (29.0, 29.0),
             ).all(), 0
         )
 
