@@ -26,13 +26,11 @@ class TestViews_ja(BaseTestCase):
         return super(TestViews_ja, self).get(*args, **kwargs)
 
     def test_home_ja(self):
-        resp = self.get('/')
-        data = resp.data.decode('utf-8')
+        data = self.get('/')
         self.assertIn('地元のゲームへようこそ！', data)
 
     def test_404(self):
-        resp = self.get('/notvalid')
-        data = resp.data.decode('utf-8')
+        data = self.get('/notvalid')
         self.assertIn('おっと！行方不明のページ！', data)
         with self.context('/notvalid'):
             self.assertIn('ホメパゲ', data)

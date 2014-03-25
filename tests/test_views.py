@@ -17,17 +17,23 @@ from flask import url_for
 
 class TestViews(BaseTestCase):
 
+    def setUp(self):
+        super(TestViews, self).setUp()
+        self.ctx = self.context()
+        self.ctx.push()
+
+    def tearDown(self):
+        super(TestViews, self).tearDown()
+        self.ctx.pop()
+
     def test_home(self):
-        resp = self.get('/')
-        data = resp.data.decode('utf-8')
+        data = self.get(url_for('home'))
         self.assertIn('Welcome to GameLocal!', data)
 
     def test_404(self):
-        resp = self.get('/notvalid')
-        data = resp.data.decode('utf-8')
+        data = self.get('/notvalid')
         self.assertIn('Oops! Took a wrong turn somewhere...', data)
-        with self.context('/notvalid'):
-            self.assertIn(url_for('home'), data)
+        self.assertIn(url_for('home'), data)
 
 
 if __name__ == '__main__':

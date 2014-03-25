@@ -58,8 +58,30 @@ class BaseTestCase(unittest.TestCase):
         self.assertEqual(len(collection), length)
 
     def get(self, *args, **kwargs):
-        # Override this to e.g. inject headers for all tests of a subclass
-        return self.app.get(*args, **kwargs)
+        """ Override this to e.g. inject headers for all tests of a subclass
+
+        :param as_text:
+            If True (default), returns just the text response.
+            If False, returns the Response object
+        """
+        as_text = kwargs.pop('as_text', True)
+        response = self.app.get(*args, **kwargs)
+        if as_text:
+            return response.get_data(as_text=True)
+        return response
+
+    def post(self, *args, **kwargs):
+        """ Override this to e.g. inject headers for all tests of a subclass
+
+        :param as_text:
+            If True (default), returns just the text response.
+            If False, returns the Response object
+        """
+        as_text = kwargs.pop('as_text', True)
+        response = self.app.post(*args, **kwargs)
+        if as_text:
+            return response.get_data(as_text=True)
+        return response
 
 
 def gettext_for(locale='en'):
