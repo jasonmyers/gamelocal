@@ -20,6 +20,8 @@ UPGRADE_COMMAND = 'alembic upgrade'
 
 DOWNGRADE_COMMAND = 'alembic downgrade'
 
+LOCAL_DATABASE_PATH = os.path.join(BASEDIR, 'local.db')
+
 
 def delete_pyc_files(path):
     for pyc in glob.glob(
@@ -31,13 +33,16 @@ def delete_pyc_files(path):
 def reset(clean=False, head=False):
     local_db = os.path.join(BASEDIR, 'local.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = \
-        'sqlite:///' + local_db
+        'sqlite:///' + LOCAL_DATABASE_PATH
 
     delete_pyc_files(['alembic', 'versions'])
 
     print "Dropping local database"
 
-    db.drop_all()
+    try:
+        os.remove(LOCAL_DATABASE_PATH)
+    except OSError:
+        pass
 
     print "Creating new local database"
 
