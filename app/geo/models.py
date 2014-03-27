@@ -31,6 +31,8 @@ class Geo(object):
         nullable=False, default=''
     )
 
+    timezone = db.Column(db.UnicodeText, nullable=False, default='')
+
     @declared_attr
     def latitude(self):
         if db.engine.dialect.name == 'sqlite':
@@ -45,7 +47,7 @@ class Geo(object):
 
     GEO_ATTRS = (
         'address', 'city', 'region', 'postal_code', 'country_code',
-        'latitude', 'longitude',
+        'timezone', 'latitude', 'longitude',
     )
 
     @property
