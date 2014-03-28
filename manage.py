@@ -4,7 +4,7 @@
 
 Usage:
     manage.py check
-    manage.py test [-d | --debug]
+    manage.py test [-d | --debug] [-c | --coverage]
     manage.py pep8
     manage.py requirements
     manage.py translate
@@ -16,7 +16,8 @@ Usage:
 Arguments:
     check               Run tests and pep8 (use to verify before commit)
     test                Run tests
-        -d --debug          Disable output capture, and drop to PDB on exception
+        -d --debug      Disable output capture, and drop to PDB on exception
+        -c --coverage   Run test coverage
     pep8                Run pep8 linting on source
     requirements        Updates requirements.txt with pip freeze
     translate           Scan source for translations and create/update necessary
@@ -44,7 +45,7 @@ if __name__ == '__main__':
 
     if opt['test'] or opt['check']:
         from app.management import test
-        test.run(debug=opt['--debug'])
+        test.run(debug=opt['--debug'], coverage=opt['--coverage'])
 
     if opt['pep8'] or opt['check']:
         from app.management import pep8
