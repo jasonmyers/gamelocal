@@ -100,12 +100,12 @@ class Geo(object):
         self.country_code = country_code
 
         try:
-            self.latitude = float(geo_data.get('latitude')) or None
+            self.latitude = float(geo_data.get('latitude'))
         except (TypeError, ValueError):
             self.latitude = None
 
         try:
-            self.longitude = float(geo_data.get('longitude')) or None
+            self.longitude = float(geo_data.get('longitude'))
         except (TypeError, ValueError):
             self.longitude = None
 
