@@ -23,7 +23,7 @@ class Geo(object):
     # zip
     postal_code = db.Column(db.UnicodeText, nullable=False, default='')
 
-    # 2-digit country code
+    # 2-digit ISO 3166-1 Alpha2 country code
     country_code = db.Column(
         UnicodeTextChoices(
             choices=UnicodeTextChoices.EMPTY_CHOICE + COUNTRY_CODES
@@ -93,9 +93,21 @@ class Geo(object):
         self.city = geo_data.get('city', '')
         self.region = geo_data.get('region_name', '')
         self.postal_code = geo_data.get('postal_code', '')
-        self.country_code = geo_data.get('country_code', '')
-        self.latitude = geo_data.get('latitude', '')
-        self.longitude = geo_data.get('longitude', '')
+
+        country_code = geo_data.get('country_code', '')
+        if country_code and country_code not in COUNTRY_CODES_DICT:
+            country_code = ''
+        self.country_code = country_code
+
+        try:
+            self.latitude = float(geo_data.get('latitude'))
+        except (TypeError, ValueError):
+            self.latitude = None
+
+        try:
+            self.longitude = float(geo_data.get('longitude'))
+        except (TypeError, ValueError):
+            self.longitude = None
 
     def set_geo_from_geo(self, other):
         """ Sets this model's geo data to the same as another geo model
