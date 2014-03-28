@@ -100,14 +100,19 @@ class Geo(object):
         self.country_code = country_code
 
         try:
-            self.latitude = float(geo_data.get('latitude'))
+            self.latitude = float(geo_data.get('latitude')) or None
         except (TypeError, ValueError):
             self.latitude = None
 
         try:
-            self.longitude = float(geo_data.get('longitude'))
+            self.longitude = float(geo_data.get('longitude')) or None
         except (TypeError, ValueError):
             self.longitude = None
+
+        # The service returns 0, 0 for some invalid addresses, so we'll
+        # treat those as None
+        if (self.latitude, self.longitude) == (0.0, 0.0):
+            self.latitude, self.longitude = None, None
 
     def set_geo_from_geo(self, other):
         """ Sets this model's geo data to the same as another geo model
