@@ -20,7 +20,7 @@ def i18n_name(locale='en', fmt='{game}{n}'):
     def name(club, n):
         game = gettext_for(locale)(Club.label_for_choice('game', club.game))
         return fmt.format(
-            game=game.decode('utf-8'),
+            game=game,
             n=n,
         )
     return name

@@ -18,6 +18,12 @@ from flask import url_for
 class TestViews_ja(BaseTestCase):
     """ Test i18n settings for 'ja' locale """
 
+    @classmethod
+    def setUpClass(cls):
+        super(TestViews_ja, cls).setUpClass()
+        from tests.utils import gettext_for
+        cls._ = gettext_for('ja')
+
     def get(self, *args, **kwargs):
         # Force HTTP_ACCEPT_LANGUAGE header to be 'ja'
         environ_base = kwargs.get('environ_base', {})
@@ -27,13 +33,19 @@ class TestViews_ja(BaseTestCase):
 
     def test_home_ja(self):
         data = self.get('/')
-        self.assertIn('地元のゲームへようこそ！', data)
+        welcome_message = self._('Welcome to GameLocal!')
+
+        # Make sure translation is working
+        self.assertNotEqual(welcome_message, 'Welcome to GameLocal!')
+
+        self.assertIn(welcome_message, data)
 
     def test_404(self):
         data = self.get('/notvalid')
-        self.assertIn('おっと！行方不明のページ！', data)
+
+        self.assertIn(self._('Oops! Took a wrong turn somewhere...'), data)
         with self.context('/notvalid'):
-            self.assertIn('ホメパゲ', data)
+            self.assertIn(self._('Home'), data)
             self.assertIn(url_for('home'), data)
 
 

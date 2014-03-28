@@ -48,20 +48,24 @@ class TestViews(BaseTestCase):
         self.assertLength(self.GoClub.query.all(), 0)
 
     def test_create_club(self):
+        from tests.clubs.factories import GoClubFactory
+
         self.assertLength(self.GoClub.query.all(), 0)
+
+        club = GoClubFactory()
 
         self.post(
             url_for('clubs.new_club'),
             data={
-                'name': 'test club',
-                'game': 'go',
+                'name': club.name,
+                'game': club.game,
             }
         )
 
         clubs = self.GoClub.query.all()
 
         self.assertLength(clubs, 1)
-        self.assertEqual(clubs[0].name, 'test club')
+        self.assertEqual(clubs[0].name, club.name)
 
 
 if __name__ == '__main__':

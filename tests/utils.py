@@ -86,10 +86,16 @@ class BaseTestCase(unittest.TestCase):
 
 
 def gettext_for(locale='en'):
-    """ Returns the `gettext` function for a specific locale """
+    """ Returns the `ugettext` function for a specific locale
+
+    Usage::
+
+        _ = gettext_for('ja')  # Load the 'ja' translation library
+
+    """
     return Translations.load(
         os.path.join(BASEDIR, 'app', 'translations'), [locale]
-    ).gettext
+    ).ugettext
 
 
 def seed_database(filename=TEST_DATABASE_PATH):

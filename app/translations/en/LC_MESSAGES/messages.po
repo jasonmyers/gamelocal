@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-07 15:08-0500\n"
+"POT-Creation-Date: 2014-03-28 12:12-0400\n"
 "PO-Revision-Date: 2014-03-06 11:16-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
+#: app/__init__.py:29
+msgid "You must login to view this page."
+msgstr ""
+
 #: app/clubs/forms.py:14
 msgid "Club Name"
 msgstr ""
@@ -25,15 +29,15 @@ msgstr ""
 msgid "Game"
 msgstr ""
 
-#: app/clubs/models.py:11
+#: app/clubs/models.py:12
 msgid "Go"
 msgstr ""
 
-#: app/clubs/models.py:12
+#: app/clubs/models.py:13
 msgid "Chess"
 msgstr ""
 
-#: app/clubs/views.py:32
+#: app/clubs/views.py:34
 msgid "{club.name} has been added!"
 msgstr ""
 
@@ -42,15 +46,34 @@ msgid "Oops! Took a wrong turn somewhere..."
 msgstr ""
 
 #: app/templates/404.html:9 app/templates/clubs/list.html:4
-#: app/templates/clubs/new.html:4
+#: app/templates/clubs/new.html:4 app/templates/users/login.html:4
+#: app/templates/users/register.html:4
+#: app/templates/users/reset_password.html:4
 msgid "Home"
 msgstr ""
 
-#: app/templates/_base.html:12 app/templates/_base.html:15
+#: app/templates/_base.html:12 app/templates/_base.html:17
 msgid "GameLocal"
 msgstr ""
 
-#: app/templates/_base.html:24
+#: app/templates/_base.html:19
+msgid "Welcome"
+msgstr ""
+
+#: app/templates/_base.html:20
+msgid "Logout"
+msgstr ""
+
+#: app/templates/_base.html:22 app/templates/users/login.html:10
+msgid "Login"
+msgstr ""
+
+#: app/templates/_base.html:23 app/templates/users/login.html:13
+#: app/templates/users/register.html:13
+msgid "Register"
+msgstr ""
+
+#: app/templates/_base.html:35
 msgid "About"
 msgstr ""
 
@@ -64,5 +87,67 @@ msgstr ""
 
 #: app/templates/clubs/list.html:10
 msgid "Add a Club"
+msgstr ""
+
+#: app/templates/clubs/new.html:11
+msgid "Add Club"
+msgstr ""
+
+#: app/templates/users/login.html:11
+msgid "Forgot Password"
+msgstr ""
+
+#: app/templates/users/reset_password.html:12
+msgid "Reset Password"
+msgstr ""
+
+#: app/users/forms.py:12 app/users/forms.py:18
+msgid "Email"
+msgstr ""
+
+#: app/users/forms.py:13 app/users/forms.py:19
+msgid "Password"
+msgstr ""
+
+#: app/users/forms.py:17
+msgid "Name"
+msgstr ""
+
+#: app/users/forms.py:20 app/users/forms.py:31
+msgid "Confirm Password"
+msgstr ""
+
+#: app/users/forms.py:22 app/users/forms.py:33
+msgid "Passwords must match"
+msgstr ""
+
+#: app/users/forms.py:30
+msgid "New Password"
+msgstr ""
+
+#: app/users/views.py:41 app/users/views.py:48
+msgid "Bad token."
+msgstr ""
+
+#: app/users/views.py:59
+msgid "Your password has been changed."
+msgstr ""
+
+#: app/users/views.py:91
+msgid "An email has been sent with instructions for resetting your password"
+msgstr ""
+
+#: app/users/views.py:119 app/users/views.py:123
+msgid "Invalid email or password"
+msgstr ""
+
+#: app/users/views.py:143
+msgid "This email is alread taken"
+msgstr ""
+
+#: app/users/views.py:164
+msgid ""
+"An email has been sent to you with a confirmation link. Please log in at "
+"your convenience and click the link to finish registration."
 msgstr ""
 
