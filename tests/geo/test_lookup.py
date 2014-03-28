@@ -31,7 +31,6 @@ class TestLookup(BaseTestCase):
 
         mock_urlopen.assert_called_with(GEO_IP_SERVICE.format(ip=TEST_IP))
 
-
     @mock.patch('app.geo.lookup.urllib2.urlopen')
     def test_iplookup_invalid(self, mock_urlopen):
         from app.geo.lookup import iplookup, GEO_IP_SERVICE
@@ -43,6 +42,18 @@ class TestLookup(BaseTestCase):
         self.assertEqual(iplookup('-1'), {})
 
         mock_urlopen.assert_called_with(GEO_IP_SERVICE.format(ip='-1'))
+
+    @mock.patch('app.geo.lookup.urllib2.urlopen')
+    def test_iplookup_service_unavailable(self, mock_urlopen):
+        from app.geo.lookup import iplookup, GEO_IP_SERVICE
+        from urllib2 import HTTPError
+
+        mock_urlopen().read.side_effect = HTTPError(
+            '-1', 500, None, None, None)
+
+        self.assertEqual(iplookup(TEST_IP), {})
+
+        mock_urlopen.assert_called_with(GEO_IP_SERVICE.format(ip=TEST_IP))
 
 
 if __name__ == '__main__':
