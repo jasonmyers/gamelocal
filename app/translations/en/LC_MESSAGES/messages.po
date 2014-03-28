@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-28 12:52-0400\n"
+"POT-Creation-Date: 2014-03-28 14:20-0400\n"
 "PO-Revision-Date: 2014-03-06 11:16-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -142,7 +142,7 @@ msgid "Invalid email or password"
 msgstr ""
 
 #: app/users/views.py:143
-msgid "This email is alread taken"
+msgid "This email is already taken"
 msgstr ""
 
 #: app/users/views.py:164
@@ -150,4 +150,7 @@ msgid ""
 "An email has been sent to you with a confirmation link. Please log in at "
 "your convenience and click the link to finish registration."
 msgstr ""
+
+#~ msgid "This email is alread taken"
+#~ msgstr ""
 
