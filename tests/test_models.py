@@ -46,6 +46,9 @@ class TestModels(BaseTestCase):
             InvalidChoiceError, field.process_bind_param, 'parcheesi', None
         )
 
+        self.assertLength(UnicodeTextChoices().choices, 0)
+        self.assertEqual(repr(UnicodeTextChoices()), b'UnicodeTextChoices')
+
     def test_unicode_choices_model_commit(self):
         from tests.clubs.factories import GoClubFactory
         from app.clubs.models import Club

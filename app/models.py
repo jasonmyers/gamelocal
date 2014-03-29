@@ -71,6 +71,9 @@ class UnicodeTextChoices(db.TypeDecorator):
         super(UnicodeTextChoices, self).__init__(*args, **kwargs)
 
     def __repr__(self):
+        return self.__unicode__().encode('utf-8')
+
+    def __unicode__(self):
         return 'UnicodeTextChoices'
 
     def process_bind_param(self, value, dialect):
