@@ -6,7 +6,7 @@ from datetime import timedelta
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = False
+DEBUG = os.environ.get('FLASK_DEBUG', True)
 
 ADMINS = ()
 SECRET_KEY = os.environ['FLASK_SECRET_KEY']  # Required
@@ -32,3 +32,8 @@ RECAPTCHA_PRIVATE_KEY = os.environ.get('FLASK_RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_OPTIONS = {'theme': 'white'}
 
 LANGUAGES = ['ja', 'en']
+
+if not DEBUG:
+    SERVER_NAME = 'gamelocal.net'
+
+SITE_NAME = 'gamelocal'

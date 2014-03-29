@@ -1,0 +1,40 @@
+{% extends 'communications/_base_email.html' %}
+
+{% block content %}
+<table cellpadding="0" cellspacing="0" border="0" align="center"
+       style='font-family: "Gill Sans", Corbel, Tahoma, sans-serif;'>
+    <tr>
+        <td width="200" valign="top">
+            {{ user.nickname }},
+            <br />
+            <br />
+        </td>
+    </tr>
+    <tr>
+        <td width="200" valign="top">
+            {{ _('Click the link below to complete your registration.') }}
+            <br />
+            <br />
+        </td>
+    </tr>
+    <tr>
+        <td width="200" valign="top">
+            <a href="{{ url_for('users.confirm_email', token=token, _external=True) }}" target ="_blank" title="{{ _('Confirm Email') }}" style="color: steelblue; text-decoration: none;">
+                {{ url_for('users.confirm_email', token=token, _external=True) }}
+            </a>
+            <br />
+            <br />
+        </td>
+    </tr>
+    <tr>
+        <td width="200" valign="top">
+            {{ _('Thank you') }},
+        </td>
+    </tr>
+    <tr>
+        <td width="200" valign="top">
+            {{ app.config['SITE_NAME'] }}
+        </td>
+    </tr>
+</table>
+{% endblock %}

@@ -4,11 +4,12 @@ from __future__ import unicode_literals
 from flask import render_template, Blueprint, request, url_for, redirect, \
     flash
 from flask.ext.babel import gettext as _
-from flask.ext.login import login_user, logout_user
+from flask.ext.login import login_user, logout_user, login_required
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import app, db
+from app.communications.email import send_email
 from app.users.forms import LoginForm, RegisterForm, ResetPasswordForm
 from app.users.models import User
 from app.users.security import allow_password
@@ -78,14 +79,7 @@ def forgot_password():
 
         user = User.query.filter_by(email=email).first()
         if user:
-            token = user.get_auth_token()
-
-            # Send email
-            # This token will expire after 1 hour
-            flash(
-                "<a href='http://127.0.0.1:5000/users/reset_password"
-                "?token={}'>Click here to reset your password</a>".format(token)
-            )
+            send_password_reset_email(user)
 
         # Don't notify whether we found a user, to prevent fishing for valid
         # email addresses
@@ -167,10 +161,70 @@ def register():
 
             login_user(user, remember=True)
 
+            send_confirmation_email(user)
+
             flash(_('An email has been sent to you with a confirmation link. '
-                    'Please log in at your convenience and click the link '
-                    'to finish registration.'))
+                    'Please login to your email at your convenience '
+                    'and click the link to finish registration.'))
 
             return redirect(url_for('home'))
 
     return render_template('users/register.html', form=form)
+
+
+@blueprint.route('/confirm_email')
+def confirm_email():
+
+    token = request.args.get('token')
+
+    if not token:
+        flash(_('Bad token.'))
+        return redirect(url_for('home'))
+
+    user = User.from_auth_token_perm(token)
+
+    if not user:
+        flash(_('Bad token.'))
+        return redirect(url_for('home'))
+
+    User.query.filter_by(id=user.id).update({
+        'email_confirmed': True,
+    })
+    db.session.commit()
+
+    flash(_('Your email has been confirmed, thank you!'))
+
+    return redirect(url_for('home'))
+
+
+def send_confirmation_email(user):
+    send_email(
+        to=user.email,
+        subject='{site} {subject}'.format(
+            site=app.config['SITE_NAME'],
+            subject=_('email confirmation'),
+        ),
+        html=render_template(
+            'communications/confirm_email.html',
+            user=user,
+            app=app,
+            token=user.get_auth_token_perm(),
+        ),
+    )
+
+
+def send_password_reset_email(user):
+    send_email(
+        to=user.email,
+        subject='{site} {subject}'.format(
+            site=app.config['SITE_NAME'],
+            subject=_('password reset request'),
+        ),
+        html=render_template(
+            'communications/password_reset_email.html',
+            user=user,
+            app=app,
+            token=user.get_auth_token(),
+        ),
+    )
+

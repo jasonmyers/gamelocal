@@ -16,7 +16,7 @@
         {% block header %}
             {{ _('GameLocal') }}
             {% if current_user.is_authenticated() %}
-                {{ _('Welcome') }} {{ current_user.nickname }}
+                {{ _('Welcome') }} {{ current_user.nickname }} Confirmed: {{ current_user.email_confirmed }}
                 <a href="{{ url_for('users.logout') }}">{{ _('Logout') }}</a>
             {% else %}
                 <a href="{{ url_for('users.login') }}">{{ _('Login') }}</a>
