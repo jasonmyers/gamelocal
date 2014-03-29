@@ -67,17 +67,39 @@ class TestModels(BaseTestCase):
             ).all(), 0
         )
 
-    @mock.patch('app.geo.lookup.urllib2.urlopen')
-    def test_set_geo_from_ip(self, mock_urlopen):
+    @mock.patch('app.geo.models.iplookup')
+    def test_invalid_country_code(self, mock_iplookup):
         TEST_IP = '66.249.68.74'
-        TEST_IP_RESPONSE = {'city': 'Mountain View'}
+        TEST_IP_RESPONSE = {
+            'country_code': 'RD', 'latitude': '0', 'longitude': '0',
+        }
 
-        mock_urlopen().read.return_value = json.dumps(TEST_IP_RESPONSE)
+        mock_iplookup.return_value = TEST_IP_RESPONSE
+
+        club = self.GoClubFactory()
+        club.set_geo_from_ip(TEST_IP)
+
+        self.assertEqual(club.country_code, '')
+
+
+    @mock.patch('app.geo.models.iplookup')
+    def test_set_geo_from_ip(self, mock_iplookup):
+        TEST_IP = '66.249.68.74'
+        TEST_IP_RESPONSE = {
+            'city': 'Mountain View',
+            'region_name': 'California',
+            'country_code': 'US',
+        }
+
+        mock_iplookup.return_value = TEST_IP_RESPONSE
 
         club = self.GoClubFactory()
         club.set_geo_from_ip(TEST_IP)
 
         self.assertEqual(club.city, TEST_IP_RESPONSE['city'])
+        self.assertEqual(club.region, TEST_IP_RESPONSE['region_name'])
+        self.assertEqual(club.country_code, TEST_IP_RESPONSE['country_code'])
+        self.assertEqual(club.country, 'United States')
 
     def test_set_geo_from_geo(self):
         geo1 = self.GoClubFactory()
