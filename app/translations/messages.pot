@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-28 14:20-0400\n"
+"POT-Creation-Date: 2014-03-28 23:06-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,27 +125,31 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
-#: app/users/views.py:41 app/users/views.py:48
+#: app/users/views.py:42 app/users/views.py:49
 msgid "Bad token."
 msgstr ""
 
-#: app/users/views.py:59
+#: app/users/views.py:60
 msgid "Your password has been changed."
 msgstr ""
 
-#: app/users/views.py:91
+#: app/users/views.py:92
 msgid "An email has been sent with instructions for resetting your password"
 msgstr ""
 
-#: app/users/views.py:119 app/users/views.py:123
+#: app/users/views.py:120 app/users/views.py:124
 msgid "Invalid email or password"
 msgstr ""
 
-#: app/users/views.py:143
+#: app/users/views.py:144
 msgid "This email is already taken"
 msgstr ""
 
-#: app/users/views.py:164
+#: app/users/views.py:147
+msgid "Your password must contain at least 8 (printable) characters."
+msgstr ""
+
+#: app/users/views.py:170
 msgid ""
 "An email has been sent to you with a confirmation link. Please log in at "
 "your convenience and click the link to finish registration."

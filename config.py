@@ -2,12 +2,18 @@
 from __future__ import unicode_literals
 
 import os
+from datetime import timedelta
+
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = False
 
 ADMINS = ()
 SECRET_KEY = os.environ['FLASK_SECRET_KEY']  # Required
+REMEMBER_COOKIE_DURATION = timedelta(days=30)
+REMEMBER_COOKIE_SECONDS = REMEMBER_COOKIE_DURATION.total_seconds()
+
+PASSWORD_RESET_SECONDS = timedelta(hours=1).total_seconds()
 
 SQLALCHEMY_DATABASE_URI = os.environ.get(
     'FLASK_DATABASE_URL',

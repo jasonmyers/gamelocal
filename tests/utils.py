@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from contextlib import contextmanager
 
 import unittest
 
@@ -31,6 +32,15 @@ class BaseTestCase(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         app.config['SQLALCHEMY_DATABASE_URI'] = \
             'sqlite:///' + TEST_DATABASE_PATH
+
+        # Disable login_required for tests
+        # Use self.enable_login() context manager to enable for a test
+        app.login_manager._login_disabled = True
+
+        # Disable session protection, since `follow_redirects=True` doesn't
+        # seem to maintain request metadata (e.g. when using 'REMOTE_ADDR')
+        # (Is there a better way?)
+        app.login_manager.session_protection = None
 
     def setUp(self):
         self.app = app.test_client()
@@ -66,6 +76,7 @@ class BaseTestCase(unittest.TestCase):
             If False, returns the Response object
         """
         as_text = kwargs.pop('as_text', True)
+        kwargs['follow_redirects'] = kwargs.get('follow_redirects', True)
         response = self.app.get(*args, **kwargs)
         if as_text:
             return response.get_data(as_text=True)
@@ -79,10 +90,47 @@ class BaseTestCase(unittest.TestCase):
             If False, returns the Response object
         """
         as_text = kwargs.pop('as_text', True)
+        kwargs['follow_redirects'] = kwargs.get('follow_redirects', True)
         response = self.app.post(*args, **kwargs)
         if as_text:
             return response.get_data(as_text=True)
         return response
+
+    @contextmanager
+    def config(self, **kwargs):
+        """ A context manager to temporarly alter the application config
+
+        Usage::
+
+            with self.config(CSRF_ENABLED=True):
+                ...
+
+        """
+        backup_config = app.config.copy()
+        app.config.update(kwargs)
+        try:
+            yield
+        finally:
+            app.config = backup_config
+
+    @contextmanager
+    def enable_login(self):
+        app.login_manager._login_disabled = False
+        try:
+            yield
+        finally:
+            app.login_manager._login_disabled = True
+
+    def make_user(self, *args, **kwargs):
+        from tests.users.factories import ChessUserFactory
+        kwargs['email'] = kwargs.get('email', 'valid@gamelocal.net')
+        kwargs['password'] = kwargs.get('password', 'gamelocal')
+        user = ChessUserFactory(
+            *args, **kwargs
+        )
+        db.session.add(user)
+        db.session.commit()
+        return user
 
 
 def gettext_for(locale='en'):

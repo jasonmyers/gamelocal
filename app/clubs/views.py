@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from flask import render_template, Blueprint, request, url_for, redirect, flash
 from flask.ext.babel import gettext as _
+from flask.ext.login import login_required
 
 from app import db
 from app.clubs.models import Club
@@ -18,6 +19,7 @@ def list_clubs():
 
 
 @blueprint.route('/new', methods=['GET', 'POST'])
+@login_required
 def new_club():
     form = ClubForm(request.form)
 

@@ -12,7 +12,18 @@
     <title>{% block title %}{{ _('GameLocal') }}{% endblock %}</title>
 </head>
 <body>
-    <div id="header">{% block header %}{{ _('GameLocal') }}{% endblock %}</div>
+    <div id="header">
+        {% block header %}
+            {{ _('GameLocal') }}
+            {% if current_user.is_authenticated() %}
+                {{ _('Welcome') }} {{ current_user.nickname }}
+                <a href="{{ url_for('users.logout') }}">{{ _('Logout') }}</a>
+            {% else %}
+                <a href="{{ url_for('users.login') }}">{{ _('Login') }}</a>
+                <a href="{{ url_for('users.register') }}">{{ _('Register') }}</a>
+            {% endif %}
+        {% endblock %}
+    </div>
     <div id="messages-wrap">
         <div id="messages">
             {% for category, msg in get_flashed_messages(with_categories=true) %}
