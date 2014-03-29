@@ -41,6 +41,10 @@ def render_item(type_, obj, autogen_context):
         autogen_context['imports'].add("from app import models")
         return "models.%r" % obj
 
+    if type_ == 'type' and isinstance(obj, (db.Float, db.Numeric)):
+        autogen_context['imports'].add("from app import models")
+        return 'models.DialectNumeric()'
+
     return False
 
 def run_migrations_offline():

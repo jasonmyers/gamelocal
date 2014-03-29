@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declared_attr
 
 from app import db
 from app.geo.lookup import iplookup
-from app.models import UnicodeTextChoices
+from app.models import UnicodeTextChoices, DialectNumeric
 from app.geo.locale import COUNTRY_CODES, COUNTRY_CODES_DICT
 
 
@@ -33,17 +33,9 @@ class Geo(object):
 
     timezone = db.Column(db.UnicodeText, nullable=False, default='')
 
-    @declared_attr
-    def latitude(self):
-        if db.engine.dialect.name == 'sqlite':
-            return db.Column(db.Float)
-        return db.Column(db.Numeric(precision=9, scale=6))
+    latitude = db.Column(DialectNumeric())
 
-    @declared_attr
-    def longitude(self):
-        if db.engine.dialect.name == 'sqlite':
-            return db.Column(db.Float)
-        return db.Column(db.Numeric(precision=9, scale=6))
+    longitude = db.Column(DialectNumeric())
 
     GEO_ATTRS = (
         'address', 'city', 'region', 'postal_code', 'country_code',

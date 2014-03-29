@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from collections import OrderedDict
-from sqlalchemy.ext.declarative import declared_attr
 
+import sqlalchemy as sa
+from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import class_mapper
 
 from app import db
@@ -83,3 +84,10 @@ class UnicodeTextChoices(db.TypeDecorator):
 
     def process_result_value(self, value, dialect):
         return value
+
+
+# A column type that is Numeric on PostgreSQL, and Float on sqlite
+if db.engine.dialect.name == 'sqlite':
+    DialectNumeric = lambda: sa.Float()
+else:
+    DialectNumeric = lambda: sa.Numeric(precision=9, scale=6)
