@@ -17,6 +17,14 @@ from app.users.security import allow_password
 blueprint = Blueprint('users', __name__, url_prefix='/users')
 
 
+@blueprint.route('/locate', methods=['POST'])
+def locate():
+    """ Update a users location """
+    print request.form
+
+    return 'OK', 200
+
+
 @blueprint.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
     """ Display a password reset form.  Usual entry point is via a link sent
@@ -227,4 +235,3 @@ def send_password_reset_email(user):
             token=user.get_auth_token(),
         ),
     )
-

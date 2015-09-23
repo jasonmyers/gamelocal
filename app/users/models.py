@@ -12,7 +12,7 @@ from app.geo.models import Geo
 
 from itsdangerous import BadData, TimedSerializer
 from app.users.security import (auth_token_serializer,
-    auth_token_serializer_perm)
+                                auth_token_serializer_perm)
 
 
 class User(BaseModel, UserMixin, Geo):
@@ -30,6 +30,8 @@ class User(BaseModel, UserMixin, Geo):
 
     def __unicode__(self):
         return self.email
+
+    JSON_FIELDS = ('name', 'email')
 
     @property
     def nickname(self):

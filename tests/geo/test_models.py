@@ -40,7 +40,7 @@ class TestModels(BaseTestCase):
 
         self.assertEqual(club.coords, (30.0, 30.0))
 
-    def test_querybounding_box(self):
+    def test_query_bounding_box(self):
         clubs = [self.GoClubFactory() for _ in range(5)]
 
         self.assertEqual(clubs[0].coords, (30.0, 30.0))
@@ -67,6 +67,60 @@ class TestModels(BaseTestCase):
             ).all(), 0
         )
 
+    def test_query_bounding_box_180_check(self):
+        clubs = [self.GoClubFactory() for _ in range(6)]
+
+        clubs[0].coords = (178.0, 0)
+        clubs[1].coords = (179.0, 0)
+
+        clubs[2].coords = (180.0, 0)   # Same point
+        clubs[3].coords = (-180.0, 0)  # Same point
+
+        clubs[4].coords = (-179.0, 0)
+        clubs[5].coords = (-178.0, 0)
+
+        db.session.add_all(clubs)
+        db.session.commit()
+
+        # Small boxes, just crossing 180 line
+        self.assertLength(
+            self.GoClub.query_bounding_box(
+                (178.0, 0.0), (-178.0, 0.0),
+            ).all(), 6
+        )
+
+        self.assertLength(
+            self.GoClub.query_bounding_box(
+                (179.0, 0.0), (-179.0, 0.0),
+            ).all(), 4
+        )
+
+        self.assertLength(
+            self.GoClub.query_bounding_box(
+                (180.0, 0.0), (-180.0, 0.0),
+            ).all(), 2
+        )
+
+        # Large boxes, just leaving out area around 180 line
+        self.assertLength(
+            self.GoClub.query_bounding_box(
+                (-178.0, 0.0), (178.0, 0.0),
+            ).all(), 2
+        )
+
+        self.assertLength(
+            self.GoClub.query_bounding_box(
+                (-179.0, 0.0), (179.0, 0.0),
+            ).all(), 4
+        )
+
+        # Everything
+        self.assertLength(
+            self.GoClub.query_bounding_box(
+                (-180, 0.0), (180, 0.0),
+            ).all(), 6
+        )
+
     @mock.patch('app.geo.models.iplookup')
     def test_invalid_country_code(self, mock_iplookup):
         TEST_IP = '66.249.68.74'
@@ -80,7 +134,6 @@ class TestModels(BaseTestCase):
         club.set_geo_from_ip(TEST_IP)
 
         self.assertEqual(club.country_code, '')
-
 
     @mock.patch('app.geo.models.iplookup')
     def test_set_geo_from_ip(self, mock_iplookup):

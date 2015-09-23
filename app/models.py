@@ -25,6 +25,8 @@ class BaseModel(db.Model):
         default=db.func.now(), onupdate=db.func.now()
     )
 
+    JSON_FIELDS = ('id',)
+
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
@@ -35,6 +37,14 @@ class BaseModel(db.Model):
 
     def __repr__(self):
         return self.__unicode__().encode('utf-8')
+
+    def jsonify(self, **kwargs):
+        return dict({
+            field: getattr(self, field)
+            for cls in self.__class__.__mro__
+            if hasattr(cls, 'JSON_FIELDS')
+            for field in cls.JSON_FIELDS
+        }, **kwargs)
 
     @classmethod
     def choices_for(cls, column):

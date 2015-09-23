@@ -150,13 +150,56 @@ def seed_database(filename=TEST_DATABASE_PATH):
     app.config['SQLALCHEMY_DATABASE_URI'] = \
         'sqlite:///' + filename
 
-    from clubs import factories
+    from clubs.factories import GoClubFactory
+    from users.factories import GoUserFactory
 
-    for _ in range(2):
-        for Factory in [
-            factories.GoClubFactory,
-            factories.ChessClubFactory,
-        ]:
-            db.session.add(Factory())
+    # Some actual clubs
+    seattle = GoClubFactory(
+        name="Seattle Go Center",
+        address="700 NE 45th Street",
+        city="Seattle",
+        region="Washington",
+        postal_code="98105",
+        country_code="US",
+        latitude=47.661591,
+        longitude=-122.320307,
+    )
+    db.session.add(seattle)
+
+    tokyo = GoClubFactory(
+        name="日本棋院",
+        address="7-2 Gobancho",
+        city="Tokyo",
+        region="Chiyoda-ku",
+        postal_code="102-0076",
+        country_code="JP",
+        latitude=35.690266,
+        longitude=139.735764,
+    )
+    db.session.add(tokyo)
+
+    # Some actual users
+    seattle = GoUserFactory(
+        name="Seattle Go Player",
+        email="go@seattle.com",
+        password="go@seattle.com",
+        city="Seattle",
+        region="Washington",
+        country_code="US",
+        latitude=47.699596,
+        longitude=-122.309074,
+    )
+    db.session.add(seattle)
+
+    tokyo = GoUserFactory(
+        name="日本",
+        email="go@tokyo.com",
+        password="go@tokyo.com",
+        city="Tokyo",
+        country_code="JP",
+        latitude=35.700523,
+        longitude=139.710689,
+    )
+    db.session.add(tokyo)
 
     db.session.commit()

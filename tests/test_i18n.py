@@ -33,10 +33,10 @@ class TestViews_ja(BaseTestCase):
 
     def test_home_ja(self):
         data = self.get('/')
-        welcome_message = self._('Welcome to GameLocal!')
+        welcome_message = self._('GameLocal')
 
         # Make sure translation is working
-        self.assertNotEqual(welcome_message, 'Welcome to GameLocal!')
+        self.assertNotEqual(welcome_message, 'GameLocal')
 
         self.assertIn(welcome_message, data)
 

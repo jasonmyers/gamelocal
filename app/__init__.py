@@ -8,12 +8,13 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 import logging
-stream_handler = logging.StreamHandler()
-app.logger.addHandler(stream_handler)
-app.logger.setLevel(logging.INFO)
 
 if app.config['DEBUG']:
     app.logger.setLevel(logging.DEBUG)
+else:
+    stream_handler = logging.StreamHandler()
+    app.logger.addHandler(stream_handler)
+    app.logger.setLevel(logging.INFO)
 
 
 # Extensions
@@ -48,6 +49,7 @@ webassets.register(
         assets.Bundle(
             # Add new .coffee files here
             'js/main.coffee',
+            'js/geo.coffee',
             filters='coffeescript',
             output='compiled/main.js',
         ),
@@ -64,6 +66,7 @@ webassets.register(
         assets.Bundle(
             # Add new .scss files here
             'css/main.scss',
+            'css/geo.scss',
             filters='scss',
             output='compiled/main.css',
         ),

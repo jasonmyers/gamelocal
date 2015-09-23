@@ -1,8 +1,9 @@
 {% extends '_base.html' %}
 
 {% block content %}
-<h1>{{ _('Welcome to GameLocal!') }}</h1>
-
-<p><a href={{ url_for('clubs.list_clubs') }}>{{ _('All Clubs') }}</a></p>
-
+<div id='map'
+     data-default-latitude='{{ current_user.latitude }}'
+     data-default-longitude='{{ current_user.longitude }}'
+>
+</div>
 {% endblock %}

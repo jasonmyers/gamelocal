@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from sqlalchemy import or_
 
 from sqlalchemy.ext.declarative import declared_attr
 
@@ -42,33 +43,59 @@ class Geo(object):
         'timezone', 'latitude', 'longitude',
     )
 
+    JSON_FIELDS = ('latitude', 'longitude', 'full_address')
+
     @property
     def country(self):
         """ Human readable version of country_code """
         return COUNTRY_CODES_DICT.get(self.country_code, self.country_code)
 
+    @property
+    def full_address(self):
+        """ Combined address fields """
+        return """{address}\n{city}, {region}  {postal_code}""".format(
+            address=self.address,
+            city=self.city,
+            region=self.region,
+            postal_code=self.postal_code
+        )
+
     @classmethod
-    def query_bounding_box(cls, topleft, bottomright):
+    def query_bounding_box(cls, southwest, northeast):
         """ Returns a query of Geo instances with lat/long inside
         the given bounding box
 
-        :param topleft:
-            tuple of coordinates specifying the top left
-            position of the bounding box
-
-        :param bottomright:
+        :param southwest:
             tuple of coordinates specifying the bottom left
             position of the bounding box
 
+        :param northeast:
+            tuple of coordinates specifying the top right
+            position of the bounding box
+
         """
-        return db.session.query(cls).filter(
-            cls.latitude.between(topleft[0], bottomright[0]),
-            cls.longitude.between(topleft[1], bottomright[1]),
-        )
+        if northeast[0] < southwest[0]:
+            # Special case if the bounding box crosses the 180 mark
+            return db.session.query(cls).filter(
+                or_(
+                    cls.latitude.between(southwest[0], 180.0),
+                    cls.latitude.between(-180.0, northeast[0])
+                ),
+                cls.longitude.between(southwest[1], northeast[1])
+            )
+        else:
+            return db.session.query(cls).filter(
+                cls.latitude.between(southwest[0], northeast[0]),
+                cls.longitude.between(southwest[1], northeast[1]),
+            )
 
     @property
     def coords(self):
         return self.latitude, self.longitude
+
+    @coords.setter
+    def coords(self, new):
+        self.latitude, self.longitude = new
 
     def set_geo_from_ip(self, ip):
         """ Sets this model's geo data to the same as the given ip address

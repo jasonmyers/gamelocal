@@ -28,7 +28,7 @@ class TestViews(BaseTestCase):
 
     def test_home(self):
         data = self.get(url_for('home'))
-        self.assertIn('Welcome to GameLocal!', data)
+        self.assertIn('GameLocal', data)
 
     def test_404(self):
         data = self.get('/notvalid')

@@ -27,6 +27,8 @@ class Club(BaseModel, Geo):
     def __unicode__(self):
         return 'Club {}'.format(self.name)
 
+    JSON_FIELDS = ('name', 'game')
+
 
 class GoClub(Club):
     __tablename__ = None
